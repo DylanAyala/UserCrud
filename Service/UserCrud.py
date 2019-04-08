@@ -58,7 +58,9 @@ def user(app):
 
     @app.route('/token/remove', methods=['POST'])
     def logout():
-        return jsonify({"msg": True}), 200
+        resp = jsonify({'logout': True})
+        unset_jwt_cookies(resp)
+        return resp, 200
 
     @app.route('/token/refresh', methods=['POST'])
     @jwt_refresh_token_required
@@ -79,5 +81,4 @@ def user(app):
     def protected():
         # Access the identity of the current user with get_jwt_identity
         current_user = get_jwt_identity()
-        refresh
         return jsonify(logged_in_as=current_user), 200
